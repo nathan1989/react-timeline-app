@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import Header from './partials/Header'
 import Content from './partials/Content'
+import Clock from './partials/Clock'
 
 const activities = [
   {
@@ -31,6 +32,7 @@ class App extends Component {
         <div className="panel">
           <Header title="Timeline" />
           <Content activities={activities} />
+          <Clock/>
         </div>
       </div>
     )
