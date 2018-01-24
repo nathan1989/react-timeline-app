@@ -4,34 +4,41 @@ import Header from './partials/Header'
 import Content from './partials/Content'
 import Clock from './partials/Clock'
 
-const activities = [
-  {
-    timestamp: new Date().getTime(),
-    text: "Ate lunch",
-    user: {
-      id: 1, name: 'Nate',
-      avatar: "http://www.croop.cl/UI/twitter/images/doug.jpg"
-    },
-    comments: [{ from: 'Ari', text: 'Me too!' }]
-  },
-  {
-    timestamp: new Date().getTime(),
-    text: "Woke up early for a beautiful run",
-    user: {
-      id: 2, name: 'Ari',
-      avatar: "http://www.croop.cl/UI/twitter/images/doug.jpg"
-    },
-    comments: [{ from: 'Nate', text: 'I am so jealous' }]
-  },
-]
-
 class App extends Component {
+  constructor(props){
+    super(props)
+
+    this.state = ({refreshing: false})
+  }
+
+  // bound to the refresh button
+  refresh() {
+    this.setState({ refreshing: true })
+  }
+
+  // callback from Content component
+  onComponentRefresh() {
+    this.setState({ refreshing: false })
+  }
+
   render() {
+    const {refreshing} = this.state
+
     return (
       <div className="notificationsFrame">
         <div className="panel">
-          <Header title="Timeline" />
-          <Content activities={activities} />
+          <Header title="Github activity" />
+          {/* refreshing is the component's state */}
+          <Content
+            onComponentRefresh={this.onComponentRefresh.bind(this)}
+            requestRefresh={refreshing}
+            // fetchData={fetchEvents} 
+            />
+          {/* a container for styling */}
+          <button onClick={this.refresh.bind(this)}>
+            <i className="fa fa-refresh" />
+            Refresh
+          </button>
           <Clock/>
         </div>
       </div>
